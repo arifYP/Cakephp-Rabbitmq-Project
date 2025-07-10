@@ -4,6 +4,13 @@
 <head>
   <meta charset="UTF-8">
   <title>Send Data to RabbitMQ</title>
+  <style>
+    @media print {
+      .no-print {
+        display: none;
+      }
+    }
+  </style>
 </head>
 <body>
   <h2>User Submission Form</h2>
@@ -11,6 +18,11 @@
     <label>Name: <input type="text" name="name" required></label><br><br>
     <label>Email: <input type="email" name="email" required></label><br><br>
     <button type="submit">Send</button>
+  </form>
+  <br><br>
+  <!-- PDF Download Button -->
+  <form action="download.php" method="get" class="no-print">
+    <button type="submit" style="color:blue">Download this Page as PDF</button>
   </form>
 </body>
 </html>
