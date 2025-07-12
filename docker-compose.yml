@@ -32,6 +32,8 @@ services:
     environment:
       MYSQL_DATABASE: cakephpdb
       MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: cakeuser
+      MYSQL_PASSWORD: 123456
     ports:
       - "3306:3306"
     networks:
