@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    networks:
+      - app-net
+
+  backend:
+    build: ./backend
+    depends_on:
+      - rabbitmq
+      - db
+    ports:
+      - "8081:80"
+    networks:
+      - app-net
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - app-net
+
+  db:
+    image: mariadb:10.3
+    restart: always
+    environment:
+      MYSQL_DATABASE: cakephpdb
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    networks:
+      - app-net
+
+networks:
+  app-net:
