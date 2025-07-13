@@ -4,7 +4,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 // ✅ RabbitMQ connection
-$conn = new AMQPStreamConnection('localhost', 5672, 'guest', 'guest');
+$conn = new AMQPStreamConnection('10.0.0.72', 5672, 'admin', 'admin123');
 $channel = $conn->channel();
 
 $channel->queue_declare('data_queue', false, false, false, false);
@@ -12,9 +12,9 @@ $channel->queue_declare('data_queue', false, false, false, false);
 echo "✅ Waiting for messages...\n";
 
 // ✅ MariaDB connection
-$dsn = 'mysql:host=localhost;dbname=cakephpdb;charset=utf8mb4';
-$dbUser = 'cakeuser';
-$dbPass = '123456'; // যদি password থাকে, দিন
+$dsn = 'mysql:host=10.0.0.72;dbname=cakephpdb;charset=utf8mb4';
+$dbUser = 'root';
+$dbPass = 'root'; // যদি password থাকে, দিন
 
 try {
     $pdo = new PDO($dsn, $dbUser, $dbPass);

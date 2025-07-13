@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $msg = new AMQPMessage(json_encode($data));
 
 //        $conn = new AMQPStreamConnection('localhost', 5672, 'guest', 'guest');
-       $conn = new AMQPStreamConnection('rabbitmq', 5672, 'guest', 'guest'); 
+       $conn = new AMQPStreamConnection('10.0.0.72', 5672, 'admin', 'admin123'); 
        $ch = $conn->channel();
 
         $ch->queue_declare('data_queue', false, false, false, false);

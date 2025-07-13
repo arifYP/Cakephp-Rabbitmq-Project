@@ -11,31 +11,31 @@ services:
   backend:
     build: ./backend
     depends_on:
-      - rabbitmq
-      - db
+      - wait-for-db
+      - wait-for-rabbit
     ports:
       - "8081:80"
-    networks:
-      - app-net
-
-  rabbitmq:
-    image: rabbitmq:3-management
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    networks:
-      - app-net
-
-  db:
-    image: mariadb:10.3
-    restart: always
     environment:
-      MYSQL_DATABASE: cakephpdb
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: cakeuser
-      MYSQL_PASSWORD: 123456
-    ports:
-      - "3306:3306"
+     # DB_HOST: 172.17.0.1            # host machine IP
+      DB_HOST: 10.0.0.72
+      DB_PORT: 3306
+      DB_DATABASE: cakephpdb
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      RABBITMQ_HOST: 10.0.0.72      # RabbitMQ host machine IP
+      RABBITMQ_PORT: 5672
+    networks:
+      - app-net
+
+  wait-for-db:
+    image: busybox
+    command: sh -c "until nc -z 10.0.0.72 3306; do sleep 1; done"
+    networks:
+      - app-net
+
+  wait-for-rabbit:
+    image: busybox
+    command: sh -c "until nc -z 10.0.0.72 5672; do sleep 1; done"
     networks:
       - app-net
 
