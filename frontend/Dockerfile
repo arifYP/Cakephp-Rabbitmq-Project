@@ -2,11 +2,16 @@ FROM php:8.1-apache
 
 WORKDIR /var/www/html
 
-# প্রয়োজনীয় PHP extension গুলো ইনস্টল করুন
+# প্রয়োজনীয় PHP extension ও wkhtmltopdf ইনস্টল করুন
 RUN apt-get update && apt-get install -y \
     libzip-dev \
     zip \
-    libsocket++-dev && \
+    libsocket++-dev \
+    wkhtmltopdf \
+    xvfb \
+    libfontconfig1 \
+    libxrender1 \
+    libjpeg62-turbo && \
     docker-php-ext-install mysqli zip sockets
 
 # Composer ইনস্টল করুন

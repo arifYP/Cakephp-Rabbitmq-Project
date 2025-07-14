@@ -1,24 +1,19 @@
 <?php
-// Path to the original HTML file
 $htmlFile = __DIR__ . '/form.html';
+$pdfFile  = sys_get_temp_dir() . '/form_download.pdf';
+$cmd      = "/usr/bin/wkhtmltopdf '$htmlFile' '$pdfFile' 2>&1";
 
-// Path to temporary PDF file
-$pdfFile = sys_get_temp_dir() . '/form_download.pdf';
-
-// Command to convert HTML to PDF
-$cmd = "wkhtmltopdf $htmlFile $pdfFile";
-
-// Execute the command
 exec($cmd, $output, $return_var);
 
 if ($return_var === 0 && file_exists($pdfFile)) {
-    // Serve the PDF to the browser
     header('Content-Type: application/pdf');
     header('Content-Disposition: attachment; filename="form.pdf"');
     readfile($pdfFile);
-    // Optionally, delete the temp file
     unlink($pdfFile);
+    exit;
 } else {
-    echo "Failed to generate PDF.";
+    echo "Failed to generate PDF.<br>";
+    echo "Command: $cmd<br>";
+    echo "Output:<pre>" . implode("\n", $output) . "</pre>";
 }
 ?>
